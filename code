@@ -1,0 +1,38 @@
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+import time
+
+PATH = "C:\Program Files (x86)\chromedriver.exe"
+browser = webdriver.Chrome(PATH)
+
+browser.get("https://orteil.dashnet.org/cookieclicker/")
+
+time.sleep(3)
+
+
+cookie = browser.find_element_by_id("bigCookie")
+cookie_count = browser.find_element_by_id("cookies")
+
+actions = ActionChains(browser)
+actions.click(cookie)
+
+productNames = []
+for i in range(18):
+    productNames.append(browser.find_elements_by_id("productName" + str(i)))
+
+print("product names: ", productNames)
+
+productPrices = []
+for i in range(18):
+    productPrices.append(browser.find_elements_by_id("productPrice" + str(i)))
+
+print("product names: ", productNames)
+
+def start_clicking():
+    for i in range(500):
+        actions.perform()
+        count = int(cookie_count.text.split(" ")[0])
+        cps = cookie_count.text.split("per second : ")[-1]
+
+start_clicking()
+browser.quit()
